@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="communityComments">
+ 	<insert id="insert" parameterType="org.iclass.dto.CommunityComments">
+ 		INSERT INTO communityComments
+ 			(idx,mref,writer,content) 
+		VALUES 
+			(comment_idx_seq.nextval,#{mref},#{writer},#{content})
+ 	</insert>  
+ 	
+ 	<delete id="delete" parameterType="int">
+ 		DELETE FROM 
+ 			communityComments 
+ 		WHERE 
+ 			idx=#{idx}
+ 	</delete>
+ 	
+ 	<select id="maxOf" resultType="int">
+ 		SELECT max(idx) FROM communityComments 
+ 	</select>
+ 	
+ 	<!-- 댓글 목록 -->
+ 	<select id="commentsList" parameterType="long" 
+ 				resultType="org.iclass.dto.CommunityComments">
+ 		SELECT * 
+ 		FROM communityComments 
+ 		WHERE mref=#{idx}
+ 	</select>
+ 	
+ 	<!-- 메인글의 댓글 갯수 컬럼을 update -->
+ 	<update id="setCommentCount" parameterType="long">
+ 	<!-- 메인글 idx의 댓글이 몇개인지 communityComments 테이블에서 count(*) 로 구하고
+ 		 메인글 테이블 community update 합니다.  -->
+ 		update community
+ 		set commentcount =(
+ 			SELECT count(*) 
+ 			FROM communityComments 
+ 			WHERE mref=#{idx}
+ 		)
+ 		where idx = #{idx}		
+ 	</update>
+ 	
+ </mapper>
+ 
+ 
+ 
+ 
+ 
+ 

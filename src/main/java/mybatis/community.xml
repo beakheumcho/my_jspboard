@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="community">
+ 	
+ 	<!-- 메인글 목록 가져오기 - 할일 : 한번에(즉 한페이지에) 글 10개씩 가져오도록 변경해야 합니다.   -->
+ 	<select id="list" resultType="org.iclass.dto.Community">
+ 		SELECT * 
+ 		FROM community
+ 	</select>
+ 	
+ 	<!-- 페이지네이션(페이지 설정) 을 위한 select -->
+ 	<select id="pagelist" resultType="org.iclass.dto.Community" parameterType="java.util.Map">
+ 		SELECT * FROM 
+			(SELECT rownum r ,f.* FROM
+								(SELECT * FROM community  ORDER BY idx DESC) f)
+		WHERE r BETWEEN #{start} AND #{end}
+ 	</select>
+ 	
+ 	
+ 	<select id="count" resultType="int">
+ 		SELECT count(*) FROM community
+ 	</select>
+ 	
+ 	
+ 	<!-- PK로 글 조회(글 읽기) -->
+ 	<select id="selectByIdx" parameterType="long" resultType="org.iclass.dto.Community">
+ 		SELECT * 
+ 		FROM 
+ 			community 
+ 		WHERE 
+ 			idx=#{idx}   
+ 	</select>
+ 	
+ 	 <!--  글 조회수 증가 -->
+ 	<update id="setReadCount" parameterType="long">
+ 		UPDATE community 
+		SET 
+			READCOUNT = READCOUNT +1 
+		WHERE 
+			idx = #{idx}
+ 	</update>
+ 	
+ 	<update id="update" parameterType="org.iclass.dto.Community">
+	 	UPDATE community
+		SET 
+			title=#{title}, content=#{content} ,ip=#{ip}
+		WHERE 
+			idx=#{idx}
+ 	</update>
+ 	
+ 	<delete id="delete" parameterType="long">
+ 		DELETE FROM 
+ 			community 
+ 		WHERE 
+ 			idx=#{idx}
+ 	</delete>
+ 	
+ 	<insert id="insert" parameterType="org.iclass.dto.Community">
+ 		INSERT INTO 
+ 			community (idx,writer,title,content,ip)
+		VALUES 
+			(community_idx_seq.nextval,#{writer},#{title},#{content},#{ip,jdbcType=VARCHAR})
+			<!-- 매개변수가 null 을 허용하고 싶을 때 jdbcType=VARCHAR 로 타입을 알려줍니다. -->
+		<!-- 참고: insert 후에 community_idx_seq 시퀀스 값을 가져와서 idx 프로퍼티에 저장하는 태그 
+		     Dao에서 리턴값에 뭘 사용하는지 확인해보기.-->
+		<selectKey keyProperty="idx" resultType="long" order="AFTER">
+			<!-- community_idx_seq 시퀀스값 가져오는 sql -->
+			select community_idx_seq.currval
+			from dual
+		</selectKey>	
+ 	</insert>
+ </mapper>
+ 
+ 
+ 
+ 
+ 
+ 

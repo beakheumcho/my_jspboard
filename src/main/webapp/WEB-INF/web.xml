@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+  <display-name>jspBoard</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+  </welcome-file-list>
+  
+  <!--  @WebFilter 애노테이션을 대신해서 사용하는 방법 -->
+  <!-- 
+  <filter>
+  	<filter-name>sessionFilter</filter-name>
+  	<filter-class>org.iclass.filter.SessionFilter</filter-class>
+  	<async-supported>true</async-supported>
+  </filter>
+	
+  <filter-mapping>
+  	<filter-name>sessionFilter</filter-name>  
+  	<url-pattern>*.jsp</url-pattern>
+  </filter-mapping>
+  
+  <filter>
+  	<filter-name>encodingFilter</filter-name>
+  	<filter-class>org.iclass.filter.EncodingFilter</filter-class>
+  	<async-supported>true</async-supported>
+  </filter>
+ 
+  <filter-mapping>
+  	<filter-name>encodingFilter</filter-name>  
+  	<url-pattern>*.jsp</url-pattern>
+  </filter-mapping>
+    -->
+  <!-- 사용자의 잘못된 접근 오류 페이지 설정하기 : 모든 구현을 끝내고 마지막에 작성하기. 왜냐하면 오류를 발견해야 디버깅할수 있으므로-->
+  <!-- 모든 Exception 이 생겼을 때 error.jsp로 url 이동하기 -->
+  <error-page>
+  	<exception-type>java.lang.Exception</exception-type>
+  	<location>/error.jsp</location>
+  </error-page>
+  <!-- 에러코드 404에 대한 처리 -->
+  <error-page>
+  	<error-code>404</error-code>
+  	<location>/error.jsp</location>
+  </error-page>
+</web-app>
