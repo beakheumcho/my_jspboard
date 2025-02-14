@@ -11,6 +11,8 @@
 </head>
 <body>
 <main id="list">
+
+<%@ include file="../header.jsp" %>
 <h3>북챗 :: 커뮤니티</h3>
 <p>오늘 무슨 책을 읽으셨나요? </p>
 <hr style="color:white;">

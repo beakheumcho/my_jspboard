@@ -1,5 +1,6 @@
 package org.iclass.dto;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 import lombok.AllArgsConstructor;
@@ -20,7 +21,7 @@ public class Community {
 	private String title;
 	private String content;
 	private int readCount;
-	private Timestamp createdAt;
+	private Date createdAt;  // java.sql.Timestamp 타입도 가능하다.
 	private String ip;
 	private String commentCount;
 
